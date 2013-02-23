@@ -3,3 +3,11 @@
 Simple notes taking application with support of local storage (via IndexedDB) and Markdown (thanks to [Marked](https://github.com/chjj/marked))..
 
 First commit, more to come ;)
+
+
+## Licences
+
+ - icon:
+   - source: Crystal Clear Theme
+   - licence: LGPL
+   - source: http://commons.wikimedia.org/wiki/File:Crystal_clear_right_to_left.png
