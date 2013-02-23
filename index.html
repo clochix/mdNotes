@@ -2,89 +2,77 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="pragma" content="no-cache" />
     <title>MdNotes</title>
-    <link rel="stylesheet" type="text/css" href="shared/style/input_areas.css">
-    <link rel="stylesheet" type="text/css" href="shared/style/headers.css"/>
-    <link rel="stylesheet" type="text/css" href="shared/style/buttons.css"/>
-    <link rel="stylesheet" type="text/css" href="shared/style_unstable/lists.css">
-    <link rel="stylesheet" type="text/css" href="shared/style_unstable/progress_activity.css">
-    <link rel="stylesheet" type="text/css" href="shared/style/switches.css">
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" type="text/css" href="css/mdnotes.css"/>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
     <!--
     <link rel="resource" type="application/l10n" href="locales/locales.ini" />
     <script type="text/javascript" src="shared/js/l10n.js"></script>
     -->
-    <style>
-body.notStarted section {
-  display: none;
-}
-#loading {
-  display: none;
-}
-body.notStarted #loading {
-  display: block;
-  width: 100%;
-  text-align: center;
-  vertical-align: center;
-}
-#detail.textarea {
-}
-#title.saved, #content.saved {
-  transition: background-color .5s ease-in-out;
-}
-#title.saved, #content.saved {
-  background-color: #8F8;
-}
-#toolbox button {
-  width: auto;
-}
-.hidden {
-  display: none;
-}
-    </style>
     <script type="text/javascript" defer src="js/common.js"></script>
     <script type="text/javascript" defer src="js/mdnotes.js"></script>
     <script type="text/javascript" defer src="lib/marked/lib/marked.js"></script>
   </head>
 
   <body class="notStarted">
-    <section role="region">
-      <header>
-        <button id="back" data-panel="detail"><span class="icon icon-back">back</span></button>
-        <button id="close" data-panel="list"><span class="icon icon-close">close</span></button>
-        <menu type="toolbar">
-          <button id="add" data-panel="list"><span class="icon icon-add">add</span></button>
-          <button id="save" data-panel="detail"><span class="icon icon-compose">save</span></button>
-        </menu>
-        <h1>Bloc note</h1>
+    <section id="templates">
+      <ul>
+        <li data-template-id="list-item">
+          <span data-template-id="list-item-title"></span>
+          <button type="button" class="close">&times;</button>
+        </li>
+      </ul>
+    </section>
+    <section id="navbar" role="region" class="" >
+      <header >
+        <div class="nav navLeft">
+          <a href="#" id="back"  data-panel="detail" title="back" ><i class="icon-chevron-left icon-white" ></i></a>
+          <a href="#" id="close" data-panel="list"   title="close"><i class="icon-off icon-white"></i></a>
+        </div>
+        <div class="nav navRight">
+          <a href="#" id="add"   data-panel="list"   title="add"  ><i class="icon-plus icon-white"></i></a>
+          <a href="#" id="save"  data-panel="detail" title="save" ><i class="icon-check icon-white"></i></a>
+        </div>
+        <h1>Bloc-note</h1>
       </header>
     </section>
-    <p id="loading"><progress></progress></p>
+    <div id="loading">
+      <div class="progress progress-striped active">
+        <div class="bar" style="width: 50%;"></div>
+      </div>
+    </div>
     <section data-type="list" data-panel="list" id="list" class="active">
       <ul id="notes">
       </ul>
     </section>
-    <section id="detail" class="" data-panel="detail">
+    <section id="detail" class="skin-dark" data-panel="detail">
       <form id="form" class="">
-        <p>
-          <input id="title" placeholder="titre" required="" type="text">
-          <button type="reset">Clear</button>
-        </p>
-        <p id="toolbox">
-          <button type="button" class='h1'>#</button>
-          <button type="button" class='link'>link</button>
-          <button type="button" class='pre'>pre</button>
-          <label>
-            <input id="previewSwitch" data-type="switch" type="checkbox">
-            <span></span>
-          </label>
-        </p>
+        <div class="clearfix">
+          <p id="toolbox" class="btn-group" style="float: left;">
+          <button type="button" class="btn tag h1"   data-start="# ">#</button>
+          <button type="button" class="btn tag link" data-start="[" data-end="]()">link</button>
+          <button type="button" class="btn tag pre"  data-start="    ">pre</button>
+          <button type="button" class="btn tag list"  data-start="* ">⋅</button>
+          </p>
+          <p>
+          <input id="previewSwitch" data-type="switch" type="checkbox">
+          </p>
+        </div>
         <p class="">
-          <textarea id="content" placeholder="note" required="" class=""></textarea>
-          <button type="reset">Clear</button>
+          <textarea id="content" placeholder="note" class=""></textarea>
+          <i class="fullscreen icon-fullscreen"></i>
         </p>
-        <p id="preview"></p>
       </form>
+      <div id="preview"></div>
     </section>
+    <form id="dialog" role="dialog" data-type="confirm" data-panel="confirm">
+      <section>
+        <h1>Confirmation</h1> <!-- this heading is optional -->
+        <p>Are you sure you want to delete this note?</p>
+      </section>
+      <button id="deleteConfirm" class="btn">Delete</button>
+      <button id="deleteCancel" class="btn">Cancel</button>
+    </form>
   </body>
 </html>

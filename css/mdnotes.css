@@ -1,0 +1,157 @@
+body {
+  background-color: #CFF;
+  margin: 0;
+  padding: 0;
+}
+body.notStarted section {
+  display: none;
+}
+#loading {
+  display: none;
+}
+body.notStarted #loading {
+  display: block;
+  width: 100%;
+  text-align: center;
+  vertical-align: center;
+}
+#templates {
+  display: none;
+}
+#navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  color: white;
+  background: #A00;
+}
+#navbar .nav {
+  margin: 0;
+  padding: 20px 15px;
+}
+#navbar .navLeft {
+  float: left;
+}
+#navbar .navRight {
+  float: right;
+}
+#navbar h1 {
+  margin: 0px;
+  padding: 10px;
+}
+#navbar .inactive {
+  display: none;
+}
+section[data-panel] {
+  margin-top: 70px;
+}
+#list ul {
+  list-style-type: none;
+  margin: 10px;
+}
+#list ul li {
+  margin: 0;
+  padding: 20px 5px;
+}
+#list ul li:first-child {
+  border-radius: 10px 10px 0 0;
+}
+#list ul li:last-child {
+  border-radius: 0 0 10px 10px;
+}
+#list ul li:nth-child(odd) {
+  background-color: #00FFC3;
+}
+#list ul li:nth-child(even) {
+  background-color: #3CFF00;
+}
+#detail textarea {
+  margin: 5px;
+  width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#detail textarea.active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0px;
+  margin: 0px;
+  padding: 5px;
+}
+#detail textarea + .fullscreen {
+  display: none;
+}
+#detail textarea.active + .fullscreen {
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+}
+#content.saved {
+  transition: background-color .5s ease-in-out;
+  background-color: #8F8;
+}
+#content {
+  max-height: none;
+  overflow: auto;
+}
+#toolbox button {
+  width: auto;
+}
+.hidden {
+  display: none;
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 480px) {
+}
+@media (max-width: 979px) {
+}
+@media (min-width: 980px) {
+  #list {
+    display: block;
+    width: 32%;
+    float: left;
+    margin-top: 0px;
+  }
+  #detail {
+    display: block;
+    width: 66%;
+    margin-left: 33%;
+  }
+  #list.inactive {
+    opacity: .5;
+  }
+  #detail.inactive {
+    visibility: hidden;
+  }
+  #form {
+    display: block;
+    width: 49%;
+    float: left;
+  }
+  #preview {
+    display: block;
+    width: 49%;
+    margin-left: 50%;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    padding: 5px;
+  }
+  #dialog.inactive {
+    display: none;
+  }
+  #dialog.active {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+}
