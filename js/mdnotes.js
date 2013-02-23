@@ -5,7 +5,8 @@
   "use strict";
   function DB(dbName, storeName, version) {
     var idb = window.indexedDD || window.webkitIndexedDB || window.mozIndexedDB,
-    db;
+        db,
+        req;
 
     if ('webkitIndexedDB' in window) {
       window.IDBTransaction = window.webkitIDBTransaction;
@@ -21,7 +22,28 @@
 
       request.onsuccess = function (e) {
         db = e.target.result;
+
+        // For old Chromes {
+        if (db.setVersion) {
+          console.log("in old setVersion");
+          if (db.version !== version) {
+            req = db.setVersion(version);
+            req.onsuccess = function () {
+              if (db.objectStoreNames.contains(storeName)) {
+                db.deleteObjectStore(storeName);
+              }
+              db.createObjectStore(storeName, {keyPath: "timeStamp"});
+              req.result.oncomplete = function (e) {
+                if (cb) {
         cb();
+                }
+              };
+            };
+          }
+        } else {
+        // }
+          cb();
+        }
       };
       request.onupgradeneeded = function (e) {
         db = e.target.result;
