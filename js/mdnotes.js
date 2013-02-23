@@ -113,6 +113,10 @@
 
   }
 
+  function onResize() {
+    utils.getDeviceType();
+    console.log(utils.device);
+  }
 
   /**
    * Switch active panel
@@ -120,7 +124,19 @@
    * @param {String} new active panel selector
    */
   function setActivePanel(panel) {
+    if (utils.device.type === 'desktop') {
+      Array.prototype.forEach.call(document.querySelectorAll('[data-panel]'), function (e) {
+        if (e.dataset.panel === panel) {
+          e.classList.remove('inactive');
+          e.classList.add('active');
+        } else {
+          e.classList.remove('active');
+          e.classList.add('inactive');
+        }
+      });
+    } else {
     Array.prototype.forEach.call(document.querySelectorAll('[data-panel]'), function (e) { e.style.display = e.dataset.panel === panel ? '' : 'none'; });
+  }
   }
 
   function init() {
@@ -226,5 +242,8 @@
   }
 
   //window.addEventListener("DOMContentLoaded", init, false);
+  window.addEventListener("load", onResize, false);
   window.addEventListener("load", init, false);
+  window.addEventListener("onresize", onResize, false);
+  window.matchMedia("(orientation: portrait)").addListener(onResize);
 })();
