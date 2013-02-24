@@ -21,6 +21,7 @@
         <li data-template-id="list-item">
           <a href="" data-template-id="list-item-title"></a>
           <button type="button" class="close">&times;</button>
+          <p class="meta" data-template-id="list-item-meta"></p>
         </li>
       </ul>
     </section>
@@ -67,12 +68,14 @@
       <div id="preview"></div>
     </section>
     <form id="dialog" role="dialog" data-type="confirm" data-panel="confirm">
-      <section>
-        <h1>Confirmation</h1> <!-- this heading is optional -->
-        <p>Are you sure you want to delete this note?</p>
-      </section>
-      <button id="deleteConfirm" class="btn">Delete</button>
-      <button id="deleteCancel" class="btn">Cancel</button>
+      <div class="content">
+        <section>
+          <h1>Confirmation</h1> <!-- this heading is optional -->
+          <p>Are you sure you want to delete this note?</p>
+        </section>
+        <button id="deleteConfirm" class="btn">Delete</button>
+        <button id="deleteCancel" class="btn">Cancel</button>
+      </div>
     </form>
   </body>
 </html>

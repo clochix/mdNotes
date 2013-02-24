@@ -32,7 +32,7 @@
               if (db.objectStoreNames.contains(storeName)) {
                 db.deleteObjectStore(storeName);
               }
-              db.createObjectStore(storeName, {keyPath: "timeStamp"});
+              db.createObjectStore(storeName, {keyPath: "id"});
               req.result.oncomplete = function (e) {
                 if (cb) {
                   cb();
@@ -51,7 +51,7 @@
           db.deleteObjectStore(storeName);
         }
 
-        db.createObjectStore(storeName, {keyPath: "timeStamp"});
+        db.createObjectStore(storeName, {keyPath: "id"});
       };
       request.onerror = function onError(e) {
         console.log("Error on Open", e);
@@ -171,8 +171,9 @@
             li = document.querySelector('[data-template-id=list-item]').cloneNode(true);
             title = li.querySelector('[data-template-id=list-item-title]');
             title.textContent = item.title;
-            title.setAttribute('href', '#' + item.timeStamp);
-            li.dataset.key = item.timeStamp;
+            title.setAttribute('href', '#' + item.id);
+            li.dataset.key = item.id;
+            li.querySelector('[data-template-id=list-item-meta]').textContent = utils.format("Créée le %s, mise à jour le %s", new Date(parseInt(item.created, 10)).toISOString().substr(0, 19), new Date(parseInt(item.updated, 10)).toISOString().substr(0, 19));
             notes.appendChild(li);
           });
         }
@@ -190,9 +191,11 @@
       var title = /^#.*/m.exec(content.value) || /^.*/m.exec(content.value);
       title = title[0].replace(/^#\s*/, '');
       db.set({
+        id: form.dataset.key,
         title: title,
         content: content.value,
-        timeStamp: form.dataset.key
+        created: form.dataset.created,
+        updated: Date.now()
       }, function onSaved() {
         content.classList.add('saved');
         window.setTimeout(function () {
@@ -230,7 +233,7 @@
     }
 
     // Init DB
-    db = new DB('notes', 'note', 5);
+    db = new DB('notes', 'note', 6);
     db.init(getNotes);
 
     // Add event listeners {
@@ -247,7 +250,8 @@
 
         } else {
           db.read(currentKey, function onRead(res) {
-            form.dataset.key  = res.timeStamp;
+            form.dataset.key  = res.id;
+            form.dataset.created  = res.created;
             initContent(res.content);
           });
           setActivePanel('detail');
@@ -257,7 +261,8 @@
     }, false);
     // Add note
     document.getElementById("add").addEventListener('click', function () {
-      form.dataset.key  = '' + new Date().getTime();
+      form.dataset.key      = utils.uuid();
+      form.dataset.created  = Date.now();
       initContent('# titre');
       setActivePanel('detail');
       // Select title {
