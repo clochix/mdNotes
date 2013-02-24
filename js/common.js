@@ -1,4 +1,4 @@
-/*jshint browser: true */
+/*jshint browser: true, devel: true, unused: false */
 /*global */
 this.utils = {
   device: {
@@ -50,3 +50,114 @@ this.utils = {
   }
 
 };
+
+function DB(dbName, storeName, version) {
+  "use strict";
+  var idb = window.indexedDD || window.webkitIndexedDB || window.mozIndexedDB,
+  db,
+  req;
+
+  if ('webkitIndexedDB' in window) {
+    window.IDBTransaction = window.webkitIDBTransaction;
+    window.IDBKeyRange = window.webkitIDBKeyRange;
+  }
+
+  function getStore(mode) {
+    mode = mode || 'readonly';
+    return db.transaction([storeName], mode).objectStore(storeName);
+  }
+  function initDb(cb) {
+    var request = idb.open(dbName, version);
+
+    request.onsuccess = function (e) {
+      db = e.target.result;
+
+      // For old Chromes {
+      if (db.setVersion) {
+        console.log("in old setVersion");
+        if (db.version !== version) {
+          req = db.setVersion(version);
+          req.onsuccess = function () {
+            if (db.objectStoreNames.contains(storeName)) {
+              db.deleteObjectStore(storeName);
+            }
+            db.createObjectStore(storeName, {keyPath: "id"});
+            req.result.oncomplete = function (e) {
+              if (cb) {
+                cb();
+              }
+            };
+          };
+        }
+      } else {
+        // }
+        cb();
+      }
+    };
+    request.onupgradeneeded = function (e) {
+      db = e.target.result;
+      if (db.objectStoreNames.contains(storeName)) {
+        db.deleteObjectStore(storeName);
+      }
+
+      db.createObjectStore(storeName, {keyPath: "id"});
+    };
+    request.onerror = function onError(e) {
+      console.log("Error on Open", e);
+    };
+  }
+
+  function set(data, cb) {
+    var request = getStore('readwrite').put(data);
+    request.onsuccess = function (e) {
+      cb();
+    };
+    request.onerror = function (e) {
+      console.log("Error Adding: ", e);
+    };
+  }
+  function read(id, cb) {
+    var request, results = [];
+    if (typeof id === 'function') {
+      cb = id;
+      request = getStore().openCursor();
+      request.onsuccess = function (e) {
+        var cursor = e.target.result;
+        if (cursor) {
+          results.push(cursor.value);
+          cursor['continue']();
+        } else {
+          cb(results);
+        }
+      };
+      request.onerror = function (e) {
+        console.log("Error on cursor: ", e);
+      };
+    } else {
+      request = getStore().get(id);
+      request.onsuccess = function (e) {
+        cb(e.target.result);
+      };
+      request.onerror = function (e) {
+        console.log("Error reading", e);
+      };
+    }
+  }
+  function remove(id, cb) {
+    var request = getStore('readwrite')['delete'](id);
+    request.onsuccess = function (e) {
+      cb();
+    };
+    request.onerror = function (e) {
+      console.log("Error deleting: ", e);
+    };
+  }
+
+  return {
+    init: initDb,
+    set: set,
+    read: read,
+    remove: remove
+  };
+
+}

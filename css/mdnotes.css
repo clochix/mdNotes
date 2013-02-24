@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
 }
-body.notStarted section {
+body.notStarted > * {
   display: none;
 }
 #loading {
@@ -11,9 +11,9 @@ body.notStarted section {
 }
 body.notStarted #loading {
   display: block;
-  width: 100%;
+  width: 50%;
+  margin: 45% auto;
   text-align: center;
-  vertical-align: center;
 }
 #templates {
   display: none;
@@ -79,7 +79,6 @@ section[data-panel] {
   font-size: 80%;
 }
 #detail textarea {
-  margin: 5px;
   width: 100%;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -145,6 +144,9 @@ section[data-panel] {
   }
   #detail.inactive {
     visibility: hidden;
+  }
+  #detail textarea {
+    margin: 5px;
   }
   #form {
     display: block;
