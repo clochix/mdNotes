@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <title>MdNotes</title>
     <link rel="icon" type="image/png" href="favicon.png" />
-    <link rel="stylesheet" type="text/css" href="css/mdnotes.css"/>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="css/mdnotes.css"/>
     <!--
     <link rel="resource" type="application/l10n" href="locales/locales.ini" />
     <script type="text/javascript" src="shared/js/l10n.js"></script>
@@ -19,7 +19,7 @@
     <section id="templates">
       <ul>
         <li data-template-id="list-item">
-          <span data-template-id="list-item-title"></span>
+          <a href="" data-template-id="list-item-title"></a>
           <button type="button" class="close">&times;</button>
         </li>
       </ul>
@@ -47,23 +47,23 @@
       </ul>
     </section>
     <section id="detail" class="skin-dark" data-panel="detail">
-      <form id="form" class="">
-        <div class="clearfix">
-          <p id="toolbox" class="btn-group" style="float: left;">
-          <button type="button" class="btn tag h1"   data-start="# ">#</button>
-          <button type="button" class="btn tag link" data-start="[" data-end="]()">link</button>
-          <button type="button" class="btn tag pre"  data-start="    ">pre</button>
-          <button type="button" class="btn tag list"  data-start="* ">⋅</button>
-          </p>
-          <p>
-          <input id="previewSwitch" data-type="switch" type="checkbox">
-          </p>
-        </div>
-        <p class="">
+      <div id="form" class="">
+        <p class="clearfix">
           <textarea id="content" placeholder="note" class=""></textarea>
           <i class="fullscreen icon-fullscreen"></i>
         </p>
-      </form>
+        <div class="clearfix">
+          <p id="toolbox" class="btn-group" style="float: left;">
+            <button type="button" class="btn tag h1"   data-start="# ">#</button>
+            <button type="button" class="btn tag link" data-start="[" data-end="]()">link</button>
+            <button type="button" class="btn tag pre"  data-start="    ">pre</button>
+            <button type="button" class="btn tag list"  data-start="* ">⋅</button>
+            <input id="previewSwitch" data-type="switch" type="checkbox">
+          </p>
+          <p>
+          </p>
+        </div>
+      </div>
       <div id="preview"></div>
     </section>
     <form id="dialog" role="dialog" data-type="confirm" data-panel="confirm">

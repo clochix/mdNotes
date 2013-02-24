@@ -164,11 +164,14 @@
           notes.textContent = "Aucune note, cliquez sur '+' pour créer la première";
         } else {
           res.forEach(function (item) {
+            var title;
             if (!item.title) {
               item.title = 'Untitled';
             }
             li = document.querySelector('[data-template-id=list-item]').cloneNode(true);
-            li.querySelector('[data-template-id=list-item-title]').textContent = item.title;
+            title = li.querySelector('[data-template-id=list-item-title]');
+            title.textContent = item.title;
+            title.setAttribute('href', '#' + item.timeStamp);
             li.dataset.key = item.timeStamp;
             notes.appendChild(li);
           });
@@ -248,6 +251,7 @@
             initContent(res.content);
           });
           setActivePanel('detail');
+          content.focus();
         }
       }
     }, false);
@@ -323,6 +327,13 @@
 
     // }
 
+    // Keyboard navigation
+    content.addEventListener('keydown', function (e) {
+      // ESC to cancel edit mode
+      if (e.target === content && e.charCode === 0 && e.keyCode === 27) {
+        content.classList.remove('active');
+      }
+    });
   }
 
   //window.addEventListener("DOMContentLoaded", init, false);
